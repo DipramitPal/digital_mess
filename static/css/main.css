@@ -1,0 +1,14 @@
+.main-box {
+	margin-top: 20vh;
+}
+
+.rect-box {
+	display: table-cell;
+    border: 1px solid green;
+    height: 10vh;
+    vertical-align: middle;
+    width: 100vw;
+    text-align: center;
+    color: #0562c5;
+    font-weight: bold;
+}
