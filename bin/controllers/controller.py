@@ -58,3 +58,20 @@ def get_menu(arg):
 			return food_items
 	except Exception as e:
 		return str(e)
+
+def submit_menu(arg):
+	try:
+		date = arg['date']
+		userid = arg['userid']
+		food_menu = arg['food_menu']
+		final_menu = ", ".join(food_menu)
+		query_verify = arg['db'].execute("SELECT * FROM menu WHERE student_id=%s AND date=%s",(str(userid),str(date)))
+		result = arg['db'].fetchone()
+		
+		if result is not None:
+			print(result[0])
+			return "Already Filled"
+		query = arg['db'].execute("INSERT INTO menu (student_id,date,item) VALUES (%s,%s,%s)",(str(userid),str(date),str(final_menu)))
+		return 1
+	except Exception as e:
+		return str(e)

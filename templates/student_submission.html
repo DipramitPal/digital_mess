@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Student Login | Digital Mess</title>
+	<link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+	<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+</head>
+<body>
+	<div class="main-box">
+		<div class="container">
+			<div class="navheader">
+				<a href="/student/logout">
+		Logout</a>
+		</div>
+			{% if feed_menu != 1 %}
+			<span style="font-weight: bolder">
+				{{ feed_menu }}
+			</span>
+			{% else %}
+			<span style="font-weight: bolder;">
+				Successfully Submitted
+			</span>
+			{% endif %}
+		<a href="/student"><button class="btn btn-primary">Go Back to Date Selection</button></a>
+		</div>
+
+	</div>
+
+
+<script src="{{url_for('static', filename='js/jquery.js')}}"></script>
+<script src="{{url_for('static', filename='js/script.js')}}"></script>
+</body>
+</html>

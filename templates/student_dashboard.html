@@ -6,15 +6,35 @@
 	<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
 </head>
 <body>
-	
-	<div class="main-box">
-		<div class="container">
-			<div class="row">
-				{{ food_menu }}
+	<form action="/submit_meal" method="POST">
+		<div class="main-box">
+			<div class="navheader">
+				<a href="/student/logout">
+		Logout</a>
+		</div>
+			<div class="container">
+				
+					Select Food Items
+						
+						<div class="row">
+							<div class="form-group">
+								<label for="food">Select by Pressing Ctrl or Shift or Dragging Mouse</label>
+								<select name="food_menu" class="form-control" id="food" multiple>
+								{% for item in food_menu %}
+
+								<option value="{{ item }}">{{ item }}</option>
+
+								{% endfor %}
+								</select>
+								</div>
+						</div>
+						
+					<input type="text" name="date" hidden="true" value="{{ date }}">
+				<button type="submit" class="btn btn-primary">Submit</button>
+				
 			</div>
 		</div>
-	</div>
-	
+	</form>
 
 <script src="{{url_for('static', filename='js/jquery.js')}}"></script>
 <script src="{{url_for('static', filename='js/script.js')}}"></script>
