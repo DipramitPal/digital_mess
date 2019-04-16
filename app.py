@@ -43,6 +43,10 @@ def student_login():
 
 @app.route('/admin')
 def admin_page():
+	if 'adminid' in session:
+		dates = controller.get_dates({'db':cursor})
+		verify_admin = session['adminid']
+		return render_template('admin_dates.html',verify_email=verify_admin,dates=dates)
 	return render_template('admin_login.html')
 
 
@@ -96,7 +100,46 @@ def student_logout():
 		session.pop('id',None)
 		return redirect('/')
 
+@app.route('/admin/logout',methods=['GET'])
+def admin_logout():
+	if 'adminid' not in session:
+		return redirect('/')
+	else:
+		session.pop('adminid',None)
+		return redirect('/')
 
+@app.route('/admin/login',methods=['POST'])
+def admin_login():
+	adminid = request.form['adminid']
+	password = request.form['password']
+	verify_admin = controller.verify_admin({'adminid':adminid,'password':password, 'db':cursor})
+	# print(verify_admin)
+	dates = controller.get_dates({'db':cursor})
+	# if verify_email:
+	session['adminid'] = verify_admin
+	return render_template('admin_dates.html',verify_email=verify_admin,dates=dates)
+	
+@app.route('/admin/dashboard',methods=['POST'])
+def admin_dashboard():
+	if 'adminid' not in session:
+		return redirect('/')
+	date = request.form['dateselect']
+	session['date'] = date
+	return render_template('admin_dashboard.html',date=date)
+
+@app.route('/admin/get_students',methods=['GET'])
+def get_students():
+	# arg = request.get_json(force=True)
+	date = session['date']
+	session.pop('date',None)
+	return controller.get_students({'db':cursor,'date':date})
+
+@app.route('/admin/verify_student',methods=['POST'])
+def verify_student():
+	arg = request.get_json(force=True)
+	print(arg)
+	id = arg['id']
+	return controller.verify_student({'db':cursor,'id':id})
 
 # App run in debug mode, False for production mode.
 if __name__ == '__main__':

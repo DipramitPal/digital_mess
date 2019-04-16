@@ -75,3 +75,56 @@ def submit_menu(arg):
 		return 1
 	except Exception as e:
 		return str(e)
+
+
+def verify_admin(arg):
+	try:
+		if arg['adminid'] is None or arg['password'] is None:
+			return 0
+		else:
+			verify = arg['db'].execute("SELECT * FROM admin WHERE admin_id = %s AND password = %s", (str(arg['adminid']),str(arg['password'])))
+			result = arg['db'].fetchone()
+			if result is None:
+				return 0
+			else:
+				return result[0]
+	except Exception as e:
+		return str(e)
+
+def get_students(arg):
+	try:
+		students = {}
+		students['data'] = []
+		query = arg['db'].execute("SELECT menu.id,menu.student_id,student.roll_no,student.name,menu.item,menu.verify_status FROM menu JOIN student ON menu.student_id=student.id WHERE menu.date = %s",(str(arg['date'])))
+		result = arg['db'].fetchall()
+		for student in result:
+			temp = {}
+			# temp.append(student[0])
+			# temp.append(student[2])
+			# temp.append(student[3])
+			# temp.append(student[4])
+			temp['id'] = student[0]
+			# temp['student_id'] = student[1]
+			temp['rollnumber'] = student[2]
+			temp['name'] = student[3]
+			temp['item'] = student[4]
+			if student[5] == 0:
+				temp['verify'] = '<a href=#><button id='+str(student[2])+' class="btn btn-primary verify_btn" data-id='+str(student[0])+' data-name='+str(student[3])+' data-rollnumber='+str(student[2])+' data-date='+str(arg['date'])+'>Verify</button></a>'
+				# temp['edit'] = 	'<a href=#><button id='+str(student[0])+str(student[2])+' class="btn btn-primary verify_btn" data-id='+str(student[0])+' data-name='+str(student[3])+' data-rollnumber='+str(student[2])+' data-date='+str(arg['date'])+'>Edit</button></a>'
+			else:
+				temp['verify'] = "Verified"
+				# temp['edit'] = "Verified"
+			students['data'].append(temp)
+		return jsonify(students)
+	except Exception as e:
+		return jsonify(str(e))
+
+def verify_student(arg):
+	try:
+		query = arg['db'].execute("UPDATE menu SET verify_status = 1 WHERE id=%s",(str(arg['id'])))
+		if query:
+			return "Success"
+		else:
+			return "Fail"
+	except Exception as e:
+		return str(e)

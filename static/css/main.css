@@ -99,32 +99,7 @@ body {
 				}
 		}
 	}
-	.form-inline {
-		.multiselect-container {
-			label.checkbox {
-				padding: 3px 20px 3px 40px;
-			}
-			label.radio {
-				padding: 3px 20px 3px 40px;
-			}
-			li {
-				a {
-					label.checkbox {
-						input[type=checkbox] {
-							margin-left: -20px;
-							margin-right: 0;
-						}
-					}
-					label.radio {
-						input[type=radio] {
-							margin-left: -20px;
-							margin-right: 0;
-						}
-					}
-				}
-			}
-		}
-	}
+	
 	.btn {
 		border-radius: 0;
 		padding: 10px 0;
